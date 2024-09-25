@@ -51,7 +51,7 @@ class FoxMccmsExternalContentPublisherStack(Stack):
                 "sns:AddPermission",
                 "sns:Subscribe"
             ],
-            principals=[iam.AccountRootPrincipal()],
+            principals=[iam.AnyPrincipal()],
             resources=[content_publisher_topic.topic_arn]
         )
 
@@ -77,7 +77,6 @@ class FoxMccmsExternalContentPublisherStack(Stack):
         # Add publish permissions to pipe role
         # TODO - can I name this, so that in the role it shows up as a particular policy name?
         pipe_role.add_to_policy(iam.PolicyStatement(
-            sid="publish",
             effect=iam.Effect.ALLOW,
             resources=[content_publisher_topic.topic_arn],
             actions=["sns:Publish"]
@@ -85,7 +84,6 @@ class FoxMccmsExternalContentPublisherStack(Stack):
 
         # Add dynamo articles table permissions to pipe role
         pipe_role.add_to_policy(iam.PolicyStatement(
-            sid="read",
             effect=iam.Effect.ALLOW,
             resources=[articles_arn],
             actions=["dynamodb:DescribeStream",
