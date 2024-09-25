@@ -96,23 +96,7 @@ class FoxMccmsExternalContentPublisherStack(Stack):
                      "dynamodb:GetItem"]
         ))
 
-
-        # Create policy document for FS account to manage policy
-        #content_publisher_topic_publish_from_pipe_policy_document = iam.PolicyDocument(
-        #    assign_sids=True,
-        #    statements=[
-
-        #        )
-        #    ]
-        #)
-
-        #topic_policy = sns.TopicPolicy(self, "allow_publish_from_pipe",
-        #                               topics=[content_publisher_topic],
-        #                               policy_document=content_publisher_topic_publish_from_pipe_policy_document
-        #                               )
-
         # Create event bridge pipe - Articles Table -> SNS Topic
-
         cfn_pipe = pipes.CfnPipe(self, topic_name + "-pipe",
                                  role_arn=pipe_role.role_arn,
                                  name=topic_name + "-pipe",
